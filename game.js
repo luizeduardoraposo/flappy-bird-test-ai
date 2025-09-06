@@ -8,8 +8,12 @@ function syncCanvasSizeAndReset() {
   canvas.height = window.innerHeight;
   resetGame();
 }
+
 window.addEventListener('resize', syncCanvasSizeAndReset);
-syncCanvasSizeAndReset();
+window.onload = () => {
+  syncCanvasSizeAndReset();
+  loop();
+};
 
 // Bird
 let bird = {
