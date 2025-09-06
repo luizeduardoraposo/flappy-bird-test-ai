@@ -17,7 +17,7 @@ const bird = {
 // Pipes
 let pipes = [];
 const pipeWidth = 52;
-const pipeGap = 130;
+const pipeGap = Math.round(130 * 1.2); // 20% maior
 const pipeSpeed = 1.7;
 const minPipeTop = 50;
 const maxPipeTop = 350;
