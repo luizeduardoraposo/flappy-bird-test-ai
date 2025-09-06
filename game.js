@@ -7,8 +7,8 @@ const bird = {
   y: 300,
   width: 34,
   height: 24,
-  gravity: 0.22,
-  lift: -5.2,
+  gravity: 0.15,
+  lift: -4.7,
   velocity: 0,
   frame: 0,
   rotation: 0
@@ -17,7 +17,7 @@ const bird = {
 // Pipes
 let pipes = [];
 const pipeWidth = 52;
-const pipeGap = 100;
+const pipeGap = 130;
 const pipeSpeed = 1.7;
 const minPipeTop = 50;
 const maxPipeTop = 350;
@@ -109,7 +109,7 @@ function update() {
   bird.rotation = Math.min((bird.velocity / 10), 1) * 0.6;
 
   // Pipes logic
-  if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 180) {
+  if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 240) {
     const top = Math.floor(Math.random() * (maxPipeTop - minPipeTop + 1)) + minPipeTop;
     pipes.push({ x: canvas.width, top, passed: false });
   }
