@@ -18,7 +18,7 @@ const bird = {
 let pipes = [];
 const pipeWidth = 52;
 const pipeGap = 100;
-const pipeSpeed = 2.5;
+const pipeSpeed = 1.7;
 const minPipeTop = 50;
 const maxPipeTop = 350;
 
