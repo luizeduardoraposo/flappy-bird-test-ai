@@ -43,15 +43,15 @@ function setSizes() {
     y: Math.round(canvas.height * 0.5),
     width: Math.round(base * 0.085),
     height: Math.round(base * 0.06),
-    gravity: base * 0.00012,
-    lift: -base * 0.008,
+    gravity: base * 0.00008,
+    lift: -base * 0.0055,
     velocity: 0,
     frame: 0,
     rotation: 0
   };
   pipeWidth = Math.round(base * 0.13);
   pipeGap = Math.round(base * 0.5); // espaço ainda maior entre os canos
-  pipeSpeed = base * 0.00224; // 20% mais lento
+  pipeSpeed = base * 0.0015; // ainda mais lento
   minPipeTop = Math.round(canvas.height * 0.18);
   maxPipeTop = minPipeTop + Math.round(canvas.height * 0.06); // diferença máxima de 6% da tela
   groundHeight = Math.round(canvas.height * 0.16);
