@@ -84,3 +84,22 @@ function update() {
   });
 }
 
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawPipes();
+  drawBird();
+  drawScore();
+  if (gameOver) {
+    ctx.fillStyle = '#fff';
+    ctx.font = '48px Arial';
+    ctx.fillText('Game Over', 70, 300);
+    ctx.font = '24px Arial';
+    ctx.fillText('Press Space to Restart', 70, 350);
+  }
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
