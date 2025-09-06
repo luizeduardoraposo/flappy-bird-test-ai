@@ -11,3 +11,25 @@ const bird = {
   lift: -10,
   velocity: 0
 };
+
+// Pipes
+let pipes = [];
+const pipeWidth = 52;
+const pipeGap = 120;
+
+// Game
+let score = 0;
+let gameOver = false;
+
+function drawBird() {
+  ctx.fillStyle = '#FFD700';
+  ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+}
+
+function drawPipes() {
+  ctx.fillStyle = '#228B22';
+  pipes.forEach(pipe => {
+    ctx.fillRect(pipe.x, 0, pipeWidth, pipe.top);
+    ctx.fillRect(pipe.x, pipe.top + pipeGap, pipeWidth, canvas.height - pipe.top - pipeGap);
+  });
+}
