@@ -109,7 +109,7 @@ function update() {
   bird.rotation = Math.min((bird.velocity / 10), 1) * 0.6;
 
   // Pipes logic
-  if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 240) {
+  if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - Math.round(240 * 1.2)) {
     const top = Math.floor(Math.random() * (maxPipeTop - minPipeTop + 1)) + minPipeTop;
     pipes.push({ x: canvas.width, top, passed: false });
   }
