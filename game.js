@@ -1,6 +1,28 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+// Proporção original do jogo
+const GAME_WIDTH = 400;
+const GAME_HEIGHT = 600;
+
+function resizeCanvas() {
+  // Mantém proporção 2:3 (400x600)
+  const windowRatio = window.innerWidth / window.innerHeight;
+  const gameRatio = GAME_WIDTH / GAME_HEIGHT;
+  if (windowRatio > gameRatio) {
+    // Janela mais larga que o jogo: altura máxima
+    canvas.height = window.innerHeight;
+    canvas.width = Math.round(window.innerHeight * gameRatio);
+  } else {
+    // Janela mais alta que o jogo: largura máxima
+    canvas.width = window.innerWidth;
+    canvas.height = Math.round(window.innerWidth / gameRatio);
+  }
+}
+
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
 // Bird
 const bird = {
   x: 60,
@@ -23,7 +45,7 @@ const minPipeTop = 50;
 const maxPipeTop = 350;
 
 // Ground
-const groundHeight = 100;
+let groundHeight = Math.round(GAME_HEIGHT * 0.166); // 100 em 600
 let groundX = 0;
 const groundSpeed = pipeSpeed;
 
@@ -71,18 +93,21 @@ function drawPipes() {
 
 function drawScore() {
   ctx.fillStyle = '#fff';
-  ctx.font = 'bold 40px Arial';
-  ctx.fillText(score, canvas.width / 2 - 10, 80);
-  ctx.font = '18px Arial';
-  ctx.fillText('Recorde: ' + best, 10, 30);
+  ctx.font = `bold ${Math.round(canvas.height * 0.066)}px Arial`;
+  ctx.fillText(score, canvas.width / 2 - 10, Math.round(canvas.height * 0.13));
+  ctx.font = `${Math.round(canvas.height * 0.03)}px Arial`;
+  ctx.fillText('Recorde: ' + best, 10, Math.round(canvas.height * 0.05));
 }
 
 function drawGround() {
+  groundHeight = Math.round(canvas.height * 0.166);
   ctx.fillStyle = '#ded895';
   ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
   ctx.fillStyle = '#bcae6e';
-  for (let i = 0; i < canvas.width; i += 40) {
-    ctx.fillRect(i + (groundX % 40), canvas.height - groundHeight, 20, 20);
+  const tileW = Math.round(canvas.width * 0.05);
+  const tileH = Math.round(groundHeight * 0.2);
+  for (let i = 0; i < canvas.width; i += tileW * 2) {
+    ctx.fillRect(i + (groundX % (tileW * 2)), canvas.height - groundHeight, tileW, tileH);
   }
 }
 
