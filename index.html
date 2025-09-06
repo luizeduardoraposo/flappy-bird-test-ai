@@ -21,17 +21,7 @@
 
 <body>
   <canvas id="gameCanvas"></canvas>
-  <script>
-    // Ajusta o canvas para ocupar 100% da viewport
-    const canvas = document.getElementById('gameCanvas');
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      if (typeof resetGame === 'function') resetGame();
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-  </script>
+  <!-- O ajuste de tamanho do canvas será feito apenas em game.js -->
   <script src="game.js"></script>
 </body>
 
