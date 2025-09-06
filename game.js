@@ -17,21 +17,45 @@ const bird = {
 // Pipes
 let pipes = [];
 const pipeWidth = 52;
-const pipeGap = Math.round(130 * 1.2); // 20% maior
-const pipeSpeed = 1.7;
-const minPipeTop = 50;
-const maxPipeTop = 350;
 
-// Ground
-const groundHeight = 100;
-let groundX = 0;
-const groundSpeed = pipeSpeed;
 
-// Game
-let score = 0;
-let best = 0;
-let gameOver = false;
-let started = false;
+
+let pipeGap, pipeSpeed, minPipeTop, maxPipeTop, groundHeight, groundX, groundSpeed;
+let score, best = 0, gameOver, started;
+
+function setSizes() {
+  const base = Math.min(canvas.width, canvas.height);
+  bird = {
+    x: Math.round(canvas.width * 0.15),
+    y: Math.round(canvas.height * 0.5),
+    width: Math.round(base * 0.085),
+    height: Math.round(base * 0.06),
+    gravity: base * 0.00025,
+    lift: -base * 0.001,
+    velocity: 0,
+    frame: 0,
+    rotation: 0
+  };
+  pipeWidth = Math.round(base * 0.13);
+  pipeGap = Math.round(base * 0.22);
+  pipeSpeed = base * 0.0028;
+  minPipeTop = Math.round(canvas.height * 0.08);
+  maxPipeTop = Math.round(canvas.height * 0.6);
+  groundHeight = Math.round(canvas.height * 0.16);
+  groundSpeed = pipeSpeed;
+}
+
+function resetGame() {
+  setSizes();
+  pipes = [];
+  score = 0;
+  gameOver = false;
+  started = false;
+  groundX = 0;
+  bird.y = Math.round(canvas.height * 0.5);
+  bird.velocity = 0;
+  bird.rotation = 0;
+}
 
 function drawBird() {
   ctx.save();
@@ -44,18 +68,18 @@ function drawBird() {
   // Olho
   ctx.fillStyle = '#fff';
   ctx.beginPath();
-  ctx.arc(8, -4, 5, 0, Math.PI * 2);
+  ctx.arc(bird.width * 0.24, -bird.height * 0.17, bird.width * 0.15, 0, Math.PI * 2);
   ctx.fill();
   ctx.fillStyle = '#000';
   ctx.beginPath();
-  ctx.arc(10, -4, 2, 0, Math.PI * 2);
+  ctx.arc(bird.width * 0.29, -bird.height * 0.17, bird.width * 0.06, 0, Math.PI * 2);
   ctx.fill();
   // Bico
   ctx.fillStyle = '#FFA500';
   ctx.beginPath();
   ctx.moveTo(bird.width / 2, 0);
-  ctx.lineTo(bird.width / 2 + 8, 3);
-  ctx.lineTo(bird.width / 2, 6);
+  ctx.lineTo(bird.width / 2 + bird.width * 0.23, bird.height * 0.13);
+  ctx.lineTo(bird.width / 2, bird.height * 0.25);
   ctx.closePath();
   ctx.fill();
   ctx.restore();
@@ -71,30 +95,20 @@ function drawPipes() {
 
 function drawScore() {
   ctx.fillStyle = '#fff';
-  ctx.font = 'bold 40px Arial';
-  ctx.fillText(score, canvas.width / 2 - 10, 80);
-  ctx.font = '18px Arial';
-  ctx.fillText('Recorde: ' + best, 10, 30);
+  ctx.font = `bold ${Math.round(canvas.height * 0.07)}px Arial`;
+  ctx.fillText(score, canvas.width / 2 - canvas.height * 0.02, canvas.height * 0.13);
+  ctx.font = `${Math.round(canvas.height * 0.03)}px Arial`;
+  ctx.fillText('Recorde: ' + best, 10, Math.round(canvas.height * 0.05));
 }
 
 function drawGround() {
   ctx.fillStyle = '#ded895';
   ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
   ctx.fillStyle = '#bcae6e';
-  for (let i = 0; i < canvas.width; i += 40) {
-    ctx.fillRect(i + (groundX % 40), canvas.height - groundHeight, 20, 20);
+  const tile = Math.round(groundHeight * 0.2);
+  for (let i = 0; i < canvas.width; i += tile * 2) {
+    ctx.fillRect(i + (groundX % (tile * 2)), canvas.height - groundHeight, tile, tile);
   }
-}
-
-function resetGame() {
-  bird.y = 300;
-  bird.velocity = 0;
-  bird.rotation = 0;
-  pipes = [];
-  score = 0;
-  gameOver = false;
-  started = false;
-  groundX = 0;
 }
 
 function update() {
@@ -109,7 +123,7 @@ function update() {
   bird.rotation = Math.min((bird.velocity / 10), 1) * 0.6;
 
   // Pipes logic
-  if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - Math.round(240 * 1.2)) {
+  if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - Math.round(pipeWidth * 4.2)) {
     const top = Math.floor(Math.random() * (maxPipeTop - minPipeTop + 1)) + minPipeTop;
     pipes.push({ x: canvas.width, top, passed: false });
   }
@@ -133,8 +147,8 @@ function update() {
   // Collision
   pipes.forEach(pipe => {
     if (
-      bird.x + 6 < pipe.x + pipeWidth &&
-      bird.x + bird.width - 6 > pipe.x &&
+      bird.x + bird.width * 0.18 < pipe.x + pipeWidth &&
+      bird.x + bird.width - bird.width * 0.18 > pipe.x &&
       (bird.y < pipe.top || bird.y + bird.height > pipe.top + pipeGap)
     ) {
       gameOver = true;
@@ -154,7 +168,7 @@ function update() {
 
   // Ground movement
   groundX -= groundSpeed;
-  if (groundX <= -40) groundX = 0;
+  if (groundX <= -Math.round(groundHeight * 0.4)) groundX = 0;
 }
 
 function draw() {
@@ -165,17 +179,17 @@ function draw() {
   drawScore();
   if (!started) {
     ctx.fillStyle = '#fff';
-    ctx.font = 'bold 36px Arial';
-    ctx.fillText('Pressione Espaço', 50, 250);
-    ctx.font = '24px Arial';
-    ctx.fillText('para começar', 120, 290);
+    ctx.font = `bold ${Math.round(canvas.height * 0.06)}px Arial`;
+    ctx.fillText('Pressione Espaço', canvas.width * 0.18, canvas.height * 0.42);
+    ctx.font = `${Math.round(canvas.height * 0.035)}px Arial`;
+    ctx.fillText('para começar', canvas.width * 0.32, canvas.height * 0.49);
   }
   if (gameOver) {
     ctx.fillStyle = '#fff';
-    ctx.font = '48px Arial';
-    ctx.fillText('Game Over', 70, 300);
-    ctx.font = '24px Arial';
-    ctx.fillText('Pressione Espaço para Reiniciar', 30, 350);
+    ctx.font = `bold ${Math.round(canvas.height * 0.08)}px Arial`;
+    ctx.fillText('Game Over', canvas.width * 0.18, canvas.height * 0.5);
+    ctx.font = `${Math.round(canvas.height * 0.04)}px Arial`;
+    ctx.fillText('Pressione Espaço para Reiniciar', canvas.width * 0.07, canvas.height * 0.58);
   }
 }
 
