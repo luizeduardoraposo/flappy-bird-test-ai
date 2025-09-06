@@ -7,8 +7,7 @@ function resizeCanvas() {
   canvas.height = window.innerHeight;
   if (typeof resetGame === 'function') resetGame();
 }
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+
 
 // Bird
 let bird = {
