@@ -6,22 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flappy Bird Clone</title>
   <style>
-    body {
-      background: #70c5ce;
-      margin: 0;
-      overflow: hidden;
-    }
-
+    html,
+    body,
     canvas {
+      height: 100vh;
+      width: 100vw;
+      margin: 0;
+      padding: 0;
       display: block;
-      margin: 0 auto;
       background: #70c5ce;
     }
   </style>
 </head>
 
 <body>
-  <canvas id="gameCanvas" width="400" height="600"></canvas>
+  <canvas id="gameCanvas"></canvas>
+  <script>
+    // Ajusta o canvas para ocupar 100% da viewport
+    const canvas = document.getElementById('gameCanvas');
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      if (typeof resetGame === 'function') resetGame();
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+  </script>
   <script src="game.js"></script>
 </body>
 
