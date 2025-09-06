@@ -43,8 +43,8 @@ function setSizes() {
     y: Math.round(canvas.height * 0.5),
     width: Math.round(base * 0.085),
     height: Math.round(base * 0.06),
-    gravity: base * 0.00025,
-    lift: -base * 0.001,
+  gravity: base * 0.00018,
+  lift: -base * 0.00075,
     velocity: 0,
     frame: 0,
     rotation: 0
@@ -133,7 +133,12 @@ function update() {
   bird.frame++;
 
   // Bird rotation
-  bird.rotation = Math.min((bird.velocity / 10), 1) * 0.6;
+  // Suaviza e limita a rotação do pássaro
+  const maxDown = Math.PI / 2.5; // ~72 graus
+  const maxUp = -Math.PI / 6;    // ~-30 graus
+  let targetRot = bird.velocity * 0.025;
+  targetRot = Math.max(Math.min(targetRot, maxDown), maxUp);
+  bird.rotation += (targetRot - bird.rotation) * 0.2;
 
   // Pipes logic
   if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - Math.round(pipeWidth * 4.2)) {
