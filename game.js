@@ -1,8 +1,17 @@
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  if (typeof resetGame === 'function') resetGame();
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
 // Bird
-const bird = {
+let bird = {
   x: 60,
   y: 300,
   width: 34,
@@ -16,7 +25,6 @@ const bird = {
 
 // Pipes
 let pipes = [];
-const pipeWidth = 52;
 
 
 
