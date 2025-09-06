@@ -1,6 +1,15 @@
 
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+
+function syncCanvasSizeAndReset() {
+  canvas.width = Math.round(window.innerWidth * 0.5);
+  canvas.height = window.innerHeight;
+  resetGame();
+}
+window.addEventListener('resize', syncCanvasSizeAndReset);
+syncCanvasSizeAndReset();
 
 // Bird
 let bird = {
