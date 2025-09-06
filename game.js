@@ -2,13 +2,6 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  if (typeof resetGame === 'function') resetGame();
-}
-
-
 // Bird
 let bird = {
   x: 60,
