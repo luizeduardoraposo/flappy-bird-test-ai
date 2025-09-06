@@ -6,21 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flappy Bird Clone</title>
   <style>
-    html,
-    body,
-    canvas {
+    html, body {
       height: 100vh;
       width: 100vw;
       margin: 0;
       padding: 0;
+      background: #70c5ce;
+    }
+    #gameCanvas {
+      height: 100vh;
+      width: 50vw;
       display: block;
+      margin: 0 auto;
       background: #70c5ce;
     }
   </style>
 </head>
 
 <body>
-  <canvas id="gameCanvas"></canvas>
+  <canvas id="gameCanvas" width="800" height="1000"></canvas>
   <!-- O ajuste de tamanho do canvas será feito apenas em game.js -->
   <script src="game.js"></script>
 </body>
