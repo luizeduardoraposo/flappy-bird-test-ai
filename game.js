@@ -103,3 +103,16 @@ function loop() {
   draw();
   requestAnimationFrame(loop);
 }
+
+document.addEventListener('keydown', function (e) {
+  if (e.code === 'Space') {
+    if (gameOver) {
+      resetGame();
+    } else {
+      bird.velocity = bird.lift;
+    }
+  }
+});
+
+resetGame();
+loop();
